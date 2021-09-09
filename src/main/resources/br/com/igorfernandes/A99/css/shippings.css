@@ -1,0 +1,7 @@
+.mfx-list-view {
+    -fx-effect: 0;
+}
+
+.mfx-list-cell {
+    -fx-border-radius: 360px;
+}
