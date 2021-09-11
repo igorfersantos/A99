@@ -31,23 +31,19 @@ import java.util.ResourceBundle;
 public class ShippingController implements Initializable {
 
     @FXML
-    private Pane rootPane;
+    private StackPane rootPane;
     @FXML
     private VBox vMenu;
 
     private Color fadedColor = new Color(0, 0, 0, 1);
     private ColorAdjust colorAdjust = new ColorAdjust();
 
-    private StackPane pane;
-
     private boolean isFadedIn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pane = new StackPane();
-        pane.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> pane.requestFocus());
         StackPane stackPane = new StackPane();
-        Insets insets = new Insets(10, 10, 10, 10);
+        Insets insets = new Insets(15);
         stackPane.setOpaqueInsets(insets);
         stackPane.setBorder(
                 new Border(
@@ -55,28 +51,10 @@ public class ShippingController implements Initializable {
                                 Color.TRANSPARENT,
                                 BorderStrokeStyle.NONE,
                                 new CornerRadii(360), BorderStroke.THIN)));
-//
-//        MFXFlowlessListView mfxFlowlessListView = new MFXFlowlessListView();
-//        MFXFontIcon icon = new MFXFontIcon(FontResources.SEARCH_PLUS.getDescription(), 20);
-//        icon.setStyle("-fx-background-radius: 15px");
-//
-//        mfxFlowlessListView.setOnMouseEntered(e -> {
-//            icon.setColor(Color.WHITE);
-//        });
-//
-//        mfxFlowlessListView.setOnMouseExited(e -> {
-//            icon.setFill(Color.BLACK);
-//        });
-//
-//        icon.setOnMouseEntered(e -> {
-//            //icon.setColor(Color.WHITE);
-//            System.out.println("teste");
-//        });
-//
-//        mfxFlowlessListView.setItems(List.of(icon));
 
-        //teste
         // TODO: Talvez mudar aqui o componente pra ser redondo apenas no top left e top right
+        StackPane root = new StackPane();
+        root.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> root.requestFocus());
         Circle background = new Circle();
         background.setRadius(15);
         background.setFill(Color.TRANSPARENT);
@@ -110,35 +88,41 @@ public class ShippingController implements Initializable {
             }
         };
 
-
-        background.setOnMouseEntered(mouseHoverEvent);
-        background.setOnMouseExited(mouseExitEvent);
         background.setOnMouseClicked(e -> {
 
             MFXDialog genericDialog = MFXDialogFactory.buildGenericDialog("teste", "teste");
             genericDialog.setAnimateIn(true);
             genericDialog.setAnimateOut(true);
             genericDialog.setVisible(false);
-            genericDialog.setIsDraggable(true);
-            //genericDialog.setBackground(new Background(new BackgroundFill(new Color(1, 1, 1, 1), null, null)));
-            //genericDialog.setScrimBackground(true);
-            //genericDialog.setScrimOpacity(0.3);
+            //genericDialog.setIsDraggable(true);
+            genericDialog.setCenterBeforeShow(true);
 
-            genericDialog.setOnBeforeOpen(event -> System.out.println("BEFORE OPEN"));
-            genericDialog.setOnOpened(event -> System.out.println("OPENED"));
+            genericDialog.setOnBeforeOpen(event -> {
+                System.out.println("BEFORE OPEN");
+            });
+            genericDialog.setOnOpened(event -> {
+                System.out.println("OPENED");
+                //centerDialog(rootPane, genericDialog);
+            });
             genericDialog.setOnBeforeClose(event -> System.out.println("BEFORE CLOSING"));
-            genericDialog.setOnClosed(event -> System.out.println("CLOSED"));
+            genericDialog.setOnClosed(event -> {
+                System.out.println("CLOSED");
+                // Clean the dialog from the rootPane, avoiding unnecessary memory consumption and GC work
+                rootPane.getChildren().remove(genericDialog);
+            });
             genericDialog.setCloseHandler(c -> {
                 genericDialog.close();
-                pane.getChildren().remove(genericDialog);
             });
-            rootPane.getChildren().add(genericDialog);
+            genericDialog.setCenter(new Circle(5));
             genericDialog.setActions(createActionsBar(genericDialog));
+            rootPane.getChildren().add(genericDialog);
             genericDialog.show();
         });
 
-        rootPane.getChildren().add(pane);
-        StackPane root = new StackPane();
+
+        root.setOnMouseEntered(mouseHoverEvent);
+        root.setOnMouseExited(mouseExitEvent);
+
         root.getChildren().addAll(background, imageView);
 
         stackPane.getChildren().add(root);
@@ -181,7 +165,7 @@ public class ShippingController implements Initializable {
         final Animation animation = new Transition() {
 
             {
-                setCycleDuration(Duration.millis(300));
+                setCycleDuration(Duration.millis(100));
                 setInterpolator(Interpolator.EASE_OUT);
                 setOnFinished(event -> isFadedIn = Objects.equals(shape.getFill(), fadedColor));
             }
@@ -190,6 +174,7 @@ public class ShippingController implements Initializable {
             protected void interpolate(double frac) {
                 Color vColor;
                 // TODO: Efeito de crescer ou spin o Circle aqui junto
+                // https://github.com/Typhon0/AnimateFX
                 if (isFadedIn) {
                     vColor = new Color(0, 0, 0, 1 - frac);
                 } else {
@@ -199,5 +184,14 @@ public class ShippingController implements Initializable {
             }
         };
         animation.play();
+    }
+
+    public void centerDialog(AnchorPane root, MFXDialog mfxDialog) {
+//        if (root != null && mfxDialog != null) {
+//            mfxDialog.setMaxWidth(Double.MAX_VALUE);
+//            AnchorPane.setLeftAnchor(mfxDialog, 0.0);
+//            AnchorPane.setRightAnchor(mfxDialog, 0.0);
+//            //AnchorPane.setRightAnchor(mfxDialog, 0.0);
+//        }
     }
 }
