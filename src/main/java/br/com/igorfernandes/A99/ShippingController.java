@@ -33,6 +33,10 @@ public class ShippingController implements Initializable {
     @FXML
     private StackPane rootPane;
     @FXML
+    private StackPane menuPane;
+    @FXML
+    private BorderPane borderPane;
+    @FXML
     private VBox vMenu;
 
     private Color fadedColor = new Color(0, 0, 0, 1);
@@ -94,7 +98,6 @@ public class ShippingController implements Initializable {
             genericDialog.setAnimateIn(true);
             genericDialog.setAnimateOut(true);
             genericDialog.setVisible(false);
-            //genericDialog.setIsDraggable(true);
             genericDialog.setCenterBeforeShow(true);
 
             genericDialog.setOnBeforeOpen(event -> {
@@ -102,7 +105,6 @@ public class ShippingController implements Initializable {
             });
             genericDialog.setOnOpened(event -> {
                 System.out.println("OPENED");
-                //centerDialog(rootPane, genericDialog);
             });
             genericDialog.setOnBeforeClose(event -> System.out.println("BEFORE CLOSING"));
             genericDialog.setOnClosed(event -> {
@@ -127,41 +129,29 @@ public class ShippingController implements Initializable {
 
         stackPane.getChildren().add(root);
         vMenu.getChildren().add(stackPane);
+        StackPane.setAlignment(stackPane, Pos.CENTER_LEFT);
     }
 
     private HBox createActionsBar(AbstractMFXDialog dialog) {
         MFXButton action1 = new MFXButton("Perform Action 1");
-        MFXButton action2 = new MFXButton("Perform Action 2");
-        MFXButton action3 = new MFXButton("Perform Action 3");
-        MFXButton close = new MFXButton("Close");
+        MFXButton close = new MFXButton("Cancel");
 
         action1.setButtonType(ButtonType.RAISED);
-        action2.setButtonType(ButtonType.RAISED);
-        action3.setButtonType(ButtonType.RAISED);
         close.setButtonType(ButtonType.RAISED);
 
         action1.setDepthLevel(DepthLevel.LEVEL1);
-        action2.setDepthLevel(DepthLevel.LEVEL1);
-        action3.setDepthLevel(DepthLevel.LEVEL1);
         close.setDepthLevel(DepthLevel.LEVEL1);
 
         action1.setOnAction(event -> System.out.println("1"));
-        action2.setOnAction(event -> System.out.println("2"));
-        action3.setOnAction(event -> System.out.println("3"));
         dialog.addCloseButton(close);
 
-        HBox box = new HBox(20, action1, action2, action3, close);
+        HBox box = new HBox(20, action1, close);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20, 5, 20, 5));
         return box;
     }
 
     private void fadeInOutFillProperty(Shape shape) {
-        //**************************
-        //this animation changes the background color
-        //of the VBox from red with opacity=1
-        //to red with opacity=0
-        //**************************
         final Animation animation = new Transition() {
 
             {
@@ -184,14 +174,5 @@ public class ShippingController implements Initializable {
             }
         };
         animation.play();
-    }
-
-    public void centerDialog(AnchorPane root, MFXDialog mfxDialog) {
-//        if (root != null && mfxDialog != null) {
-//            mfxDialog.setMaxWidth(Double.MAX_VALUE);
-//            AnchorPane.setLeftAnchor(mfxDialog, 0.0);
-//            AnchorPane.setRightAnchor(mfxDialog, 0.0);
-//            //AnchorPane.setRightAnchor(mfxDialog, 0.0);
-//        }
     }
 }

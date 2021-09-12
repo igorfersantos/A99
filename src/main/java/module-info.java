@@ -7,7 +7,7 @@ module br.com.igorfernandes.A99 {
     requires SystemTray;
     requires com.formdev.flatlaf;
     requires MaterialFX;
-    requires org.slf4j;
+    requires org.apache.logging.log4j;
 
     opens br.com.igorfernandes.A99 to javafx.fxml;
     exports br.com.igorfernandes.A99;

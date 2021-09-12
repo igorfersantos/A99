@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +22,7 @@ public
 class Main {
 
     public static final URL APP_ICON = Main.class.getResource("image/icon.png");
-    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Main.class);
     private static Main main;
     private SystemTray systemTray;
     private Parent root = null;
@@ -32,12 +34,11 @@ class Main {
     public static void main(String[] args) {
         main = new Main();
 
-        boolean isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") > 0;
-        //SystemTray.FORCE_TRAY_TYPE = SystemTray.TrayType.Swing;
+        //boolean isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") > 0;
+
         if (!FlatDarkLaf.setup()) {
-            logger.debug("Could not apply FlatDarkLaf theme!");
+            logger.debug("Could not apply FlatDarkLaf theme.");
         }
-        logger.debug("teste");
 
         SystemTray.SWING_UI = new WindowsSwingUI();
 
@@ -53,7 +54,7 @@ class Main {
         this.systemTray = SystemTray.get("A99");
 
         if (systemTray == null) {
-            throw new RuntimeException("Unable to load SystemTray!");
+            throw new RuntimeException("Unable to load SystemTray.");
         }
 
         systemTray.setImage(APP_ICON);
