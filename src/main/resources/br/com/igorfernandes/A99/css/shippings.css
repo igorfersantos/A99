@@ -1,7 +1,15 @@
-.mfx-list-view {
-    -fx-effect: 0;
+.mfx-text-field {
+    -fx-prompt-text-fill: gray;
+    -fx-text-fill: black;
 }
 
-.mfx-list-cell {
-    -fx-border-radius: 360px;
+#track-ripple {
+    -fx-background-radius: 3px;
+    -fx-background-color: #55bbff;
+    -fx-text-fill: white;
+}
+
+#track-ripple .mfx-ripple-generator {
+    -mfx-animation-speed: 1.5;
+    -mfx-ripple-color: #1900ff;
 }

@@ -36,12 +36,12 @@
                   <Insets left="10.0" />
                </padding>
                <center>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hmax="0.0" style="-fx-background-color: transparent;" vmax="0.0" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hmax="1.0E16" maxHeight="1.7976931348623157E308" style="-fx-background-color: transparent;" vmax="0.0" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
                      <content>
-                        <FlowPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: D6F9FF;" />
+                        <FlowPane fx:id="shippingPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: D6F9FF;" />
                      </content>
                   </ScrollPane>
                </center>
