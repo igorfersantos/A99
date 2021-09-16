@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: D6F9FF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.igorfernandes.A99.ShippingController">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: D6F9FF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.igorfernandes.A99.viewController.ShippingViewController">
    <children>
       <AnchorPane>
          <children>

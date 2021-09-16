@@ -1,4 +1,4 @@
-package br.com.igorfernandes.A99;
+package br.com.igorfernandes.A99.viewController;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -40,7 +40,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class ShippingController implements Initializable {
+public class ShippingViewController implements Initializable {
 
     @FXML
     private StackPane rootPane;
@@ -287,11 +287,7 @@ public class ShippingController implements Initializable {
         return box;
     }
 
-    private void createShippingTrackingPanel(String value) {
-        System.out.println("Created!");
-    }
-
-    private void createExampleShipping() {
+    private void createShippingTrackingPanel(String shippingCode) {
         MFXDialog dialog = MFXDialogFactory.buildGenericDialog(null, null);
         MFXButton close = new MFXButton("Cancel");
 
@@ -301,10 +297,6 @@ public class ShippingController implements Initializable {
         dialog.setAnimateOut(true);
         dialog.setScrimBackground(false);
         dialog.setPrefSize(300, 300);
-
-//        StackPane topStackPane = new StackPane();
-//        topStackPane
-//        dialog.setTop();
 
         dialog.addCloseButton(close);
         dialog.setCloseHandler(e -> {
