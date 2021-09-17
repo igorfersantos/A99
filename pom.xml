@@ -176,6 +176,11 @@
                 </executions>
             </plugin>
         </plugins>
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources/br/com/igorfernandes/A99</directory>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 
     <pluginRepositories>

@@ -1,9 +1,6 @@
 package br.com.igorfernandes.A99.viewController;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDialog;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXDialog;
 import io.github.palexdev.materialfx.controls.enums.ButtonType;
 import io.github.palexdev.materialfx.controls.enums.Styles;
@@ -14,9 +11,9 @@ import io.github.palexdev.materialfx.utils.BindingUtils;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,23 +21,25 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ShippingViewController implements Initializable {
+
+    private final String TRACK_RIPPLE_CLASS = "track-ripple";
 
     @FXML
     private StackPane rootPane;
@@ -51,12 +50,11 @@ public class ShippingViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private ScrollPane scrollPane;
+    private MFXScrollPane scrollPane;
     @FXML
     private VBox vMenu;
     @FXML
     private MFXTextField titleTextField;
-
     @FXML
     private Button teste;
 
@@ -67,18 +65,23 @@ public class ShippingViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> {
-            Paint unfocusedLineColor = titleTextField.getParent()
-                    instanceof StackPane stackPane
-                    ? stackPane.getBackground().getFills().get(0).getFill()
-                    : Color.WHITE;
+        // pra preencher linhas dos paineis sem foco com o cor de fundo mais pra frente
+//        Platform.runLater(() -> {
+//            Paint unfocusedLineColor = titleTextField.getParent()
+//                    instanceof StackPane stackPane
+//                    ? stackPane.getBackground().getFills().get(0).getFill()
+//                    : Color.WHITE;
+//
+//            titleTextField.setUnfocusedLineColor(unfocusedLineColor);
+//            scrollPane.setStyle("-fx-text-fill: white");
+//        });
 
-            titleTextField.setUnfocusedLineColor(unfocusedLineColor);
-            //scrollPane.setStyle("-fx-text-fill: white");
+        // TODO: Otimizar isso aqui para ficar mais suave horizontalmente
+        scrollPane.viewportBoundsProperty().addListener((ov, oldBounds, bounds) -> {
+            shippingPane.setPrefWidth(bounds.getWidth());
+            shippingPane.setPrefHeight(bounds.getHeight());
         });
 
-        shippingPane.prefWidthProperty().bind(Bindings.add(-5, scrollPane.widthProperty()));
-        shippingPane.prefHeightProperty().bind(Bindings.add(-5, scrollPane.heightProperty()));
         // TODO: Talvez mudar aqui o componente pra ser redondo apenas no top left e top right
         StackPane root = new StackPane();
         root.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> root.requestFocus());
@@ -87,8 +90,8 @@ public class ShippingViewController implements Initializable {
         background.setFill(Color.TRANSPARENT);
         background.setStroke(null);
 
-        Image image = new Image(getClass().getResourceAsStream("image/add.png"));
-        Image image2 = new Image(getClass().getResourceAsStream("image/add-hover.png"));
+        Image image = new Image(getFileAsStream("image/add.png"));
+        Image image2 = new Image(getFileAsStream("image/add-hover.png"));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
@@ -96,28 +99,20 @@ public class ShippingViewController implements Initializable {
         // Prevents hover effect getting weird
         imageView.setMouseTransparent(true);
 
-        EventHandler<MouseEvent> mouseHoverEvent = new EventHandler<>() {
-            @Override
-            public void handle(MouseEvent event) {
-                // TODO: Deixar o ColorAdjust com FadeIn/Out
-                colorAdjust.setBrightness(1);
-                fadeInOutFillProperty(background);
-                imageView.setImage(image2);
-            }
+        EventHandler<MouseEvent> mouseHoverEvent = event -> {
+            // TODO: Deixar o ColorAdjust com FadeIn/Out
+            colorAdjust.setBrightness(1);
+            fadeInOutFillProperty(background);
+            imageView.setImage(image2);
         };
 
-        EventHandler<MouseEvent> mouseExitEvent = new EventHandler<>() {
-            @Override
-            public void handle(MouseEvent event) {
-                colorAdjust.setBrightness(0);
-                fadeInOutFillProperty(background);
-                imageView.setImage(image);
-            }
+        EventHandler<MouseEvent> mouseExitEvent = event -> {
+            colorAdjust.setBrightness(0);
+            fadeInOutFillProperty(background);
+            imageView.setImage(image);
         };
 
-        root.setOnMouseClicked(e -> {
-            showAddShippingDialog();
-        });
+        root.setOnMouseClicked(e -> showAddShippingDialog());
 
         root.setOnMouseEntered(mouseHoverEvent);
         root.setOnMouseExited(mouseExitEvent);
@@ -125,6 +120,10 @@ public class ShippingViewController implements Initializable {
         root.getChildren().addAll(background, imageView);
 
         vMenu.getChildren().add(root);
+    }
+
+    private InputStream getFileAsStream(String fileName) {
+        return FileResourceUtils.getFileFromResourcesAsStream(fileName);
     }
 
     private void showAddShippingDialog() {
@@ -206,10 +205,6 @@ public class ShippingViewController implements Initializable {
 
 
         shippingCodeDialog.setOnOpened(event -> {
-            //arrumar essa parte do width
-
-            System.out.println("teste");
-
             BooleanBinding booleanBinding = Bindings.createBooleanBinding(() -> ShippingValidator.validate(
                     trackingTypeComboBox.getSelectedValue(),
                     trackingTextField.textProperty().getValue()), trackingTextField.textProperty());
@@ -258,7 +253,7 @@ public class ShippingViewController implements Initializable {
         MFXButton track = new MFXButton("Track");
         MFXButton close = new MFXButton("Cancel");
 
-        track.setId("track-ripple");
+        track.getStyleClass().add(TRACK_RIPPLE_CLASS);
 
         track.setButtonType(ButtonType.RAISED);
         close.setButtonType(ButtonType.RAISED);
@@ -268,12 +263,15 @@ public class ShippingViewController implements Initializable {
 
         track.setOnAction(event -> {
             if (trackingTypeComboBox.getValidator().isValid() && trackingTextField.getValidator().isValid()) {
+                String shippingCode = trackingTextField.textProperty().getValue();
+
                 boolean isValidShippingCode = ShippingValidator.validate(
                         trackingTypeComboBox.getSelectedValue(),
-                        trackingTextField.textProperty().getValue());
+                        shippingCode);
 
                 if (isValidShippingCode) {
-                    createShippingTrackingPanel(trackingTextField.textProperty().getValue());
+                    createShippingTrackingPanel(shippingCode);
+                    dialog.close();
                 } else {
                     System.out.println("Invalido!");
                 }
@@ -289,7 +287,6 @@ public class ShippingViewController implements Initializable {
 
     private void createShippingTrackingPanel(String shippingCode) {
         MFXDialog dialog = MFXDialogFactory.buildGenericDialog(null, null);
-        MFXButton close = new MFXButton("Cancel");
 
         dialog.setVisible(false);
         dialog.setAnimationMillis(500);
@@ -298,7 +295,7 @@ public class ShippingViewController implements Initializable {
         dialog.setScrimBackground(false);
         dialog.setPrefSize(300, 300);
 
-        dialog.addCloseButton(close);
+        // Actions and handlers
         dialog.setCloseHandler(e -> {
             dialog.close();
         });
@@ -306,8 +303,52 @@ public class ShippingViewController implements Initializable {
             event.consume();
             shippingPane.getChildren().remove(dialog);
         });
-        dialog.setActions(createShippingActions(close));
 
+        // Top Pane
+        StackPane topPane = new StackPane();
+        topPane.setAlignment(Pos.CENTER_LEFT);
+        topPane.setStyle("-fx-background-radius: 10 10 0 0; -fx-background-color: F38B8A;");
+        topPane.setPadding(new Insets(10, 0, 0, 0));
+
+        // Top Content
+        Image shippingImage = new Image(FileResourceUtils.getFileFromResourcesAsStream("image/shipping.png"));
+        ImageView shippingImageView = new ImageView(shippingImage);
+        shippingImageView.setFitHeight(32);
+        shippingImageView.setFitWidth(32);
+        shippingImageView.setPickOnBounds(true);
+        shippingImageView.setPreserveRatio(true);
+
+        MFXTextField shippingTextField = new MFXTextField();
+        shippingTextField.setAlignment(Pos.CENTER);
+        shippingTextField.setLineColor(Color.BLACK);
+        shippingTextField.setLineStrokeWidth(1);
+        shippingTextField.setPromptText("Click me to set the title");
+        shippingTextField.setTextLimit(25);
+        shippingTextField.setUnfocusedLineColor(Color.web("#ffffff00"));
+        shippingTextField.setFont(new Font("Verdana", 18));
+
+        // Bottom
+        MFXButton close = new MFXButton("OK");
+        close.getStyleClass().add(TRACK_RIPPLE_CLASS);
+        HBox shippingActions = createShippingActions(close);
+        shippingActions.setAlignment(Pos.BOTTOM_RIGHT);
+        shippingActions.setPadding(new Insets(10));
+
+        // Set margin and aligment to top components
+        BorderPane.setAlignment(topPane, Pos.CENTER);
+        StackPane.setAlignment(shippingTextField, Pos.CENTER);
+        StackPane.setMargin(shippingImageView, new Insets(0, 0, 0, 5));
+        StackPane.setMargin(shippingTextField, new Insets(0, 0, 0, 10));
+
+        // Add dialog components at the Top
+        topPane.getChildren().addAll(shippingImageView, shippingTextField);
+        dialog.setTop(topPane);
+
+        // Add dialog components at the bottom
+        dialog.addCloseButton(close);
+        dialog.setActions(shippingActions);
+
+        // Add Dialog to the shipping pane
         shippingPane.getChildren().add(dialog);
         dialog.show();
     }
@@ -339,5 +380,12 @@ public class ShippingViewController implements Initializable {
             }
         };
         animation.play();
+    }
+
+    @FXML
+    public void createPanels(ActionEvent event) {
+        for (int i = 0; i < 10; i++) {
+            createShippingTrackingPanel("AA123456789AA");
+        }
     }
 }
