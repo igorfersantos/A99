@@ -3,13 +3,20 @@
     -fx-text-fill: black;
 }
 
-#track-ripple {
+.track-ripple {
     -fx-background-radius: 3px;
     -fx-background-color: #55bbff;
     -fx-text-fill: white;
 }
 
-#track-ripple .mfx-ripple-generator {
+.track-ripple .mfx-ripple-generator {
     -mfx-animation-speed: 1.5;
     -mfx-ripple-color: #1900ff;
+}
+
+.scroll-bar {
+   -fx-background-color: #D6F9FF;
+}
+.track-background {
+   -fx-background-color: #D6F9FF;
 }
