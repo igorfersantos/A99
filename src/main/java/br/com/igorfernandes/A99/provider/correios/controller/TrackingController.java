@@ -1,6 +1,6 @@
-package br.com.igorfernandes.A99.correios.controller;
+package br.com.igorfernandes.A99.provider.correios.controller;
 
-import br.com.igorfernandes.A99.correios.dto.CorreiosShippingStatus;
+import br.com.igorfernandes.A99.provider.correios.dto.CorreiosShippingStatus;
 import com.google.gson.Gson;
 import okhttp3.*;
 
@@ -21,6 +21,7 @@ public class TrackingController {
         return instance;
     }
 
+    // TODO: Fazer um método geral para mais de um tipo de entrega
     public Optional<CorreiosShippingStatus> findCorreiosShippingStatus(String shippingCode) {
         // TODO: Validate the shipping code
         OkHttpClient client = new OkHttpClient().newBuilder().build();

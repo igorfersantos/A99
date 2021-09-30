@@ -1,5 +1,5 @@
 
-package br.com.igorfernandes.A99.correios.dto;
+package br.com.igorfernandes.A99.provider.correios.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,12 +1,14 @@
+package br.com.igorfernandes.A99.provider.correios.dto;
 
-package br.com.igorfernandes.A99.correios.dto;
-
+import br.com.igorfernandes.A99.view.shipping.IShipping;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CorreiosShippingStatus {
+@JsonAdapter(CorreiosShippingStatusDeserializer.class)
+public class CorreiosShippingStatus implements IShipping {
 
     @SerializedName("codObjeto")
     @Expose
@@ -14,9 +16,9 @@ public class CorreiosShippingStatus {
     @SerializedName("tipoPostal")
     @Expose
     private TipoPostal tipoPostal;
-    @SerializedName("dtPrevisaoEntrega")
+    @SerializedName("dtPrevista")
     @Expose
-    private String dtPrevisaoEntrega;
+    private String dtPrevista;
     @SerializedName("modalidade")
     @Expose
     private String modalidade;
@@ -42,6 +44,26 @@ public class CorreiosShippingStatus {
     @Expose
     private Boolean arEletronico;
 
+    public CorreiosShippingStatus() {
+    }
+
+    public CorreiosShippingStatus(String codObjeto, TipoPostal tipoPostal, String dtPrevista, String modalidade,
+                                  List<Evento> eventos, String situacao, Boolean autoDeclaracao,
+                                  Boolean encargoImportacao, Boolean percorridaCarteiro, Boolean bloqueioObjeto,
+                                  Boolean arEletronico) {
+        this.codObjeto = codObjeto;
+        this.tipoPostal = tipoPostal;
+        this.dtPrevista = dtPrevista;
+        this.modalidade = modalidade;
+        this.eventos = eventos;
+        this.situacao = situacao;
+        this.autoDeclaracao = autoDeclaracao;
+        this.encargoImportacao = encargoImportacao;
+        this.percorridaCarteiro = percorridaCarteiro;
+        this.bloqueioObjeto = bloqueioObjeto;
+        this.arEletronico = arEletronico;
+    }
+
     public String getCodObjeto() {
         return codObjeto;
     }
@@ -59,11 +81,11 @@ public class CorreiosShippingStatus {
     }
 
     public String getDtPrevisaoEntrega() {
-        return dtPrevisaoEntrega;
+        return dtPrevista;
     }
 
     public void setDtPrevisaoEntrega(String dtPrevisaoEntrega) {
-        this.dtPrevisaoEntrega = dtPrevisaoEntrega;
+        this.dtPrevista = dtPrevisaoEntrega;
     }
 
     public String getModalidade() {
@@ -129,5 +151,4 @@ public class CorreiosShippingStatus {
     public void setArEletronico(Boolean arEletronico) {
         this.arEletronico = arEletronico;
     }
-
 }

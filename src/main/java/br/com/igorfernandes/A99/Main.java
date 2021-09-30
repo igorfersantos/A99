@@ -21,6 +21,8 @@ import java.net.URL;
 public
 class Main {
 
+    // Aplicar isso aqui no projeto e possivelmente separar em módulo/lib
+    // https://www.zup.com.br/blog/fluent-api
     public static final URL APP_ICON = Main.class.getResource("image/icon.png");
     private static final Logger logger = LogManager.getLogger(Main.class);
     private static Main main;
@@ -49,7 +51,8 @@ class Main {
     public void start(final Stage primaryStage) {
         Platform.setImplicitExit(false);
 
-        SystemTray.DEBUG = true; // for test apps, we always want to run in debug mode
+        // for test apps, we always want to run in debug mode
+        SystemTray.DEBUG = true;
 
         this.systemTray = SystemTray.get("A99");
 
@@ -84,8 +87,7 @@ class Main {
         }
 
         systemTray.getMenu().add(new MenuItem("Quit", e -> {
-            systemTray.shutdown();
-            System.exit(0);
+            shutdown();
         })).setShortcut('q'); // case does not matter
     }
 
@@ -93,6 +95,8 @@ class Main {
         // SWT/JavaFX "shutdown hooks" have changed. Since it's no longer available with JPMS, it is no longer supported.
         // Developers must add the shutdown hooks themselves.
         systemTray.shutdown();
+        Platform.exit();
+        System.exit(0);
     }
 
     public static class MyApplication extends Application {

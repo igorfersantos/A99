@@ -1,4 +1,4 @@
-package br.com.igorfernandes.A99.viewController;
+package br.com.igorfernandes.A99.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

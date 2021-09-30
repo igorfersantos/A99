@@ -1,4 +1,4 @@
-package br.com.igorfernandes.A99.viewController;
+package br.com.igorfernandes.A99.view.shipping;
 
 public enum ShippingType {
     CORREIOS("Correios");

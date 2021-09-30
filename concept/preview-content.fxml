@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="350.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox>
+         <children>
+            <HBox>
+               <children>
+                  <StackPane alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="40.0">
+                     <children>
+                        <Line endY="50.0" fill="RED" stroke="#71d0ff" strokeType="OUTSIDE" strokeWidth="2.0" StackPane.alignment="BOTTOM_CENTER" />
+                        <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../../../../../Downloads/verificar-documento-cor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="100.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" text="Objeto recebido pelos Correios do Brasil">
+                           <font>
+                              <Font name="Verdana Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" prefWidth="271.0" text="para Unidade de Tratamento,                    &#10;CURITIBA - PR&#10;de Unidade Operacional,&#10;CURITIBA - PR">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="40.0" prefWidth="271.0" text="24/08/2021 11:29">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="17.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0">
+               <children>
+                  <StackPane alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="40.0">
+                     <children>
+                        <Line endY="100.0" fill="RED" stroke="#71d0ff" strokeType="OUTSIDE" strokeWidth="2.0" StackPane.alignment="CENTER" />
+                        <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../../../../../Downloads/verificar-documento-cor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="100.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" text="Objeto recebido pelos Correios do Brasil">
+                           <font>
+                              <Font name="Verdana Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" prefWidth="271.0" text="para Unidade de Tratamento,                    &#10;CURITIBA - PR&#10;de Unidade Operacional,&#10;CURITIBA - PR">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="40.0" prefWidth="271.0" text="24/08/2021 11:29">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="17.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="110.0">
+               <children>
+                  <StackPane alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="40.0">
+                     <children>
+                        <Line endY="40.0" fill="RED" stroke="#71d0ff" strokeType="OUTSIDE" strokeWidth="2.0" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                        </Line>
+                        <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../../../../../Downloads/verificar-documento-cor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" prefHeight="100.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" text="Objeto recebido pelos Correios do Brasil">
+                           <font>
+                              <Font name="Verdana Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" prefWidth="271.0" text="para Unidade de Tratamento,                    &#10;CURITIBA - PR&#10;de Unidade Operacional,&#10;CURITIBA - PR">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="20.0" layoutY="40.0" prefWidth="271.0" text="24/08/2021 11:29">
+                           <font>
+                              <Font name="Verdana" size="11.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="17.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

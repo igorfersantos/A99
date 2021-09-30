@@ -1,10 +1,10 @@
-package br.com.igorfernandes.A99.viewController;
+package br.com.igorfernandes.A99.view.shipping;
 
 public class ShippingValidator {
 
     public static boolean validate(ShippingType shippingType, String shippingCode) {
         return shippingType != null && switch (shippingType) {
-            case CORREIOS -> shippingCode.matches("^[A-Z]{2}[1-9]{9}[A-Z]{2}$");
+            case CORREIOS -> shippingCode.matches("^[A-Z]{2}[0-9]{9}[A-Z]{2}$");
             default -> false;
         };
     }

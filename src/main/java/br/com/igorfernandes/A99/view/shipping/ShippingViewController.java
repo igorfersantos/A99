@@ -1,5 +1,9 @@
-package br.com.igorfernandes.A99.viewController;
+package br.com.igorfernandes.A99.view.shipping;
 
+import br.com.igorfernandes.A99.provider.correios.controller.TrackingController;
+import br.com.igorfernandes.A99.provider.correios.dto.CorreiosConstants;
+import br.com.igorfernandes.A99.provider.correios.dto.CorreiosShippingStatus;
+import br.com.igorfernandes.A99.util.FileResourceUtils;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXDialog;
 import io.github.palexdev.materialfx.controls.enums.ButtonType;
@@ -11,6 +15,7 @@ import io.github.palexdev.materialfx.utils.BindingUtils;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -34,7 +39,9 @@ import javafx.util.Duration;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ShippingViewController implements Initializable {
@@ -262,20 +269,26 @@ public class ShippingViewController implements Initializable {
         close.setDepthLevel(DepthLevel.LEVEL1);
 
         track.setOnAction(event -> {
-            if (trackingTypeComboBox.getValidator().isValid() && trackingTextField.getValidator().isValid()) {
-                String shippingCode = trackingTextField.textProperty().getValue();
+            Thread th = new Thread(() -> {
+                track.setDisable(true);
+                if (trackingTypeComboBox.getValidator().isValid() && trackingTextField.getValidator().isValid()) {
+                    String shippingCode = trackingTextField.textProperty().getValue();
 
-                boolean isValidShippingCode = ShippingValidator.validate(
-                        trackingTypeComboBox.getSelectedValue(),
-                        shippingCode);
+                    boolean isValidShippingCode = ShippingValidator.validate(
+                            trackingTypeComboBox.getSelectedValue(),
+                            shippingCode);
 
-                if (isValidShippingCode) {
-                    createShippingTrackingPanel(shippingCode);
-                    dialog.close();
-                } else {
-                    System.out.println("Invalido!");
+                    if (isValidShippingCode) {
+                        createShippingTrackingPanel(shippingCode);
+                        dialog.close();
+                    } else {
+                        System.out.println("Invalido!");
+                    }
+                    Platform.runLater(() -> track.setDisable(false));
                 }
-            }
+            });
+            th.setDaemon(true);
+            th.start();
         });
         dialog.addCloseButton(close);
 
@@ -293,7 +306,7 @@ public class ShippingViewController implements Initializable {
         dialog.setAnimateIn(true);
         dialog.setAnimateOut(true);
         dialog.setScrimBackground(false);
-        dialog.setPrefSize(300, 300);
+        dialog.setPrefSize(350, 300);
 
         // Actions and handlers
         dialog.setCloseHandler(e -> {
@@ -304,14 +317,22 @@ public class ShippingViewController implements Initializable {
             shippingPane.getChildren().remove(dialog);
         });
 
-        // Top Pane
+        Optional<CorreiosShippingStatus> correiosShippingStatus = TrackingController
+                .getInstance()
+                .findCorreiosShippingStatus(shippingCode);
+
+        // Top
         StackPane topPane = new StackPane();
         topPane.setAlignment(Pos.CENTER_LEFT);
         topPane.setStyle("-fx-background-radius: 10 10 0 0; -fx-background-color: F38B8A;");
         topPane.setPadding(new Insets(10, 0, 0, 0));
 
-        // Top Content
-        Image shippingImage = new Image(FileResourceUtils.getFileFromResourcesAsStream("image/shipping.png"));
+        String lastEventIconUrl =
+                ((ShippingStep) Arrays.stream(correiosShippingStatus.get()
+                        .getSteps().toArray()).toList().get(0)).getIcon_url();
+        lastEventIconUrl = String.format(CorreiosConstants.ICON_URL_FORMAT, lastEventIconUrl);
+
+        Image shippingImage = new Image(lastEventIconUrl);
         ImageView shippingImageView = new ImageView(shippingImage);
         shippingImageView.setFitHeight(32);
         shippingImageView.setFitWidth(32);
@@ -326,6 +347,12 @@ public class ShippingViewController implements Initializable {
         shippingTextField.setTextLimit(25);
         shippingTextField.setUnfocusedLineColor(Color.web("#ffffff00"));
         shippingTextField.setFont(new Font("Verdana", 18));
+
+        // Center
+        correiosShippingStatus.ifPresent(css -> {
+            StackPane shippingContentPane = ShippingContentController.createShippingContentPane(css);
+            dialog.setCenter(shippingContentPane);
+        });
 
         // Bottom
         MFXButton close = new MFXButton("OK");
@@ -349,7 +376,8 @@ public class ShippingViewController implements Initializable {
         dialog.setActions(shippingActions);
 
         // Add Dialog to the shipping pane
-        shippingPane.getChildren().add(dialog);
+        Platform.runLater(() -> shippingPane.getChildren().add(dialog));
+
         dialog.show();
     }
 
